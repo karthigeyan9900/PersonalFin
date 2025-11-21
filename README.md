@@ -1,108 +1,54 @@
-# Finance Tracker
+# PersonalFin
 
-A personal finance tracking application built with Next.js, allowing users to track income, expenses, liabilities, subscriptions, and investments.
+A modern personal finance management application for tracking income, expenses, investments, and more.
 
 ## Features
 
-- User authentication (register/login)
-- Dashboard with financial overview
-- Track income and expenses
-- Manage liabilities
-- Monitor subscriptions
-- Track investments
-- Responsive design for mobile and desktop
+- Secure authentication with password reset
+- Financial dashboard with real-time insights
+- Track income, expenses, liabilities, subscriptions & investments
+- Multi-currency support (default: INR)
+- Admin panel for user management
+- Responsive design
 
 ## Tech Stack
 
-- Next.js 14+ (App Router)
-- TypeScript
-- Tailwind CSS
-- NextAuth.js for authentication
-- Prisma ORM
-- PostgreSQL database
+Next.js 14 • TypeScript • Tailwind CSS • Prisma • PostgreSQL • NextAuth.js
 
-## Getting Started
+## Quick Start
 
-### Prerequisites
-
-- Node.js 20.9.0 or higher (you currently have 18.20.2, consider upgrading)
-- PostgreSQL database
-
-### Installation
-
-1. Install dependencies:
 ```bash
+# Install dependencies
 npm install
-```
 
-2. Set up your database:
-   - Create a PostgreSQL database
-   - Update the `DATABASE_URL` in `.env` file with your database credentials
+# Set up environment variables
+cp .env.example .env
 
-3. Generate Prisma client and run migrations:
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
+# Run migrations
+npx prisma migrate dev
 
-4. Update the `.env` file:
-```
-DATABASE_URL="postgresql://user:password@localhost:5432/finance_tracker?schema=public"
-NEXTAUTH_SECRET="your-secret-key-change-this-in-production"
-NEXTAUTH_URL="http://localhost:3000"
-```
-
-5. Run the development server:
-```bash
+# Start development server
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+Visit `http://localhost:3000`
 
-## Deployment to Vercel
+## Environment Variables
 
-1. Push your code to GitHub
-2. Import your repository in Vercel
-3. Add environment variables in Vercel dashboard:
-   - `DATABASE_URL` (use Vercel Postgres or external PostgreSQL)
-   - `NEXTAUTH_SECRET` (generate a secure random string)
-   - `NEXTAUTH_URL` (your production URL)
-4. Deploy!
-
-### Database Options for Production
-
-- **Vercel Postgres**: Easy integration with Vercel
-- **Supabase**: Free tier available
-- **PlanetScale**: MySQL-compatible serverless database
-- **Neon**: Serverless PostgreSQL
-
-## Project Structure
-
-```
-finance-tracker/
-├── app/
-│   ├── api/
-│   │   ├── auth/[...nextauth]/
-│   │   └── register/
-│   ├── dashboard/
-│   ├── login/
-│   ├── register/
-│   └── page.tsx
-├── lib/
-│   ├── auth.ts
-│   └── prisma.ts
-├── prisma/
-│   └── schema.prisma
-└── types/
-    └── next-auth.d.ts
+```env
+DATABASE_URL="postgresql://..."
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="generate-with-openssl-rand-base64-32"
 ```
 
-## Next Steps
+## Deployment
 
-- Add CRUD operations for income, expenses, liabilities, subscriptions, and investments
-- Add data visualization with charts
-- Implement budget tracking
-- Add export functionality (CSV, PDF)
-- Add recurring transaction automation
-- Implement categories and tags
-- Add financial goals tracking
+Deployed on Vercel with Neon PostgreSQL. Configure environment variables in your deployment platform.
+
+## Admin Access
+
+To promote a user to admin, run this SQL in your database:
+
+```sql
+UPDATE "User" SET role = 'admin' WHERE email = 'your-email@example.com';
+```

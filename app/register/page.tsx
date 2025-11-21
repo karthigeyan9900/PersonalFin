@@ -55,9 +55,17 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+      
+      <div className="relative bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-2xl w-full max-w-md border border-purple-100 animate-fade-in-up">
+        <div className="text-center mb-6">
+          <div className="text-5xl mb-3 animate-bounce-slow">✨</div>
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Join PersonalFin</h1>
+          <p className="text-gray-600 mt-2">Start your financial journey today</p>
+        </div>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -162,18 +170,24 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100"
           >
-            {loading ? "Creating account..." : "Register"}
+            {loading ? "Creating account..." : "Create Account 🎉"}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-gray-600">
+        <p className="text-center mt-6 text-gray-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
+          <Link href="/login" className="text-purple-600 hover:text-pink-600 font-semibold transition-colors">
+            Login 👋
           </Link>
         </p>
+        
+        <div className="text-center mt-4">
+          <Link href="/" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   )

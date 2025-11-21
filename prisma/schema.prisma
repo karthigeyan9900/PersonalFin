@@ -13,7 +13,7 @@ model User {
   name                  String?
   password              String
   role                  String         @default("user") // user or admin
-  currency              String         @default("USD")
+  currency              String         @default("INR")
   resetToken            String?        @unique
   resetTokenExpiry      DateTime?
   createdAt             DateTime       @default(now())

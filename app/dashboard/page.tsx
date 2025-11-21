@@ -22,7 +22,7 @@ export default async function DashboardPage() {
     prisma.investment.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } }),
   ])
 
-  const currency = user?.currency || "USD"
+  const currency = user?.currency || "INR"
 
   const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0)
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0)
