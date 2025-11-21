@@ -75,6 +75,14 @@ export default function DashboardClient({
               {currency}
             </button>
             <span className="text-gray-700">Welcome, {user.name || user.email}</span>
+            {user.role === "admin" && (
+              <a
+                href="/admin"
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+              >
+                Admin Panel
+              </a>
+            )}
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
               className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
