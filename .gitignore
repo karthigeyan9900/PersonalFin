@@ -33,6 +33,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Database
+prisma/*.db
+prisma/*.db-journal
+/prisma/migrations
+
 # Vercel
 .vercel
 
