@@ -1,31 +1,37 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 
-export default function RegisterPage() {
+export default function ResetPasswordPage() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  useEffect(() => {
+    if (!token) {
+      setError("Invalid or missing reset token")
+    }
+  }, [token])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
-    // Validate password match
     if (password !== confirmPassword) {
       setError("Passwords do not match")
       return
     }
 
-    // Validate password strength
     if (password.length < 8) {
       setError("Password must be at least 8 characters long")
       return
@@ -34,10 +40,10 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ token, password }),
       })
 
       const data = await response.json()
@@ -45,7 +51,8 @@ export default function RegisterPage() {
       if (!response.ok) {
         setError(data.error || "Something went wrong")
       } else {
-        router.push("/login")
+        setSuccess(true)
+        setTimeout(() => router.push("/login"), 3000)
       }
     } catch (error) {
       setError("Something went wrong")
@@ -54,10 +61,28 @@ export default function RegisterPage() {
     }
   }
 
+  if (success) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <div className="text-center">
+            <svg className="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h1 className="text-2xl font-bold mb-2">Password Reset Successful!</h1>
+            <p className="text-gray-600 mb-6">
+              Your password has been reset. Redirecting to login...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">Reset Password</h1>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -67,35 +92,8 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
+              New Password
             </label>
             <div className="relative">
               <input
@@ -105,7 +103,8 @@ export default function RegisterPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={!token}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
               />
               <button
                 type="button"
@@ -129,7 +128,7 @@ export default function RegisterPage() {
 
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Password
+              Confirm New Password
             </label>
             <div className="relative">
               <input
@@ -138,7 +137,8 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={!token}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
               />
               <button
                 type="button"
@@ -161,15 +161,15 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !token}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
           >
-            {loading ? "Creating account..." : "Register"}
+            {loading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
 
         <p className="text-center mt-4 text-gray-600">
-          Already have an account?{" "}
+          Remember your password?{" "}
           <Link href="/login" className="text-blue-600 hover:underline">
             Login
           </Link>

@@ -8,19 +8,21 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  email         String         @unique
-  name          String?
-  password      String
-  currency      String         @default("USD")
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id                    String         @id @default(cuid())
+  email                 String         @unique
+  name                  String?
+  password              String
+  currency              String         @default("USD")
+  resetToken            String?        @unique
+  resetTokenExpiry      DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
   
-  incomes       Income[]
-  expenses      Expense[]
-  liabilities   Liability[]
-  subscriptions Subscription[]
-  investments   Investment[]
+  incomes               Income[]
+  expenses              Expense[]
+  liabilities           Liability[]
+  subscriptions         Subscription[]
+  investments           Investment[]
 }
 
 model Income {
