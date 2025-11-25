@@ -109,14 +109,14 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <nav className="bg-white/80 backdrop-blur-md shadow-lg border-b border-purple-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Admin Dashboard</h1>
             <Link
               href="/dashboard"
-              className="text-blue-600 hover:text-blue-700"
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
             >
               Back to Dashboard
             </Link>
@@ -131,10 +131,10 @@ export default function AdminPage() {
           </div>
         )}
 
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800">User Management</h2>
-            <p className="text-sm text-gray-600 mt-1">Total Users: {users.length}</p>
+        <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl overflow-hidden border border-purple-100">
+          <div className="px-6 py-5 border-b border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50">
+            <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
+            <p className="text-sm text-gray-600 mt-1 font-medium">Total Users: {users.length}</p>
           </div>
 
           <div className="overflow-x-auto">
@@ -184,14 +184,14 @@ export default function AdminPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
                         onClick={() => handleResetPassword(user.id, user.email)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-purple-600 hover:text-purple-800 font-semibold hover:scale-105 transition-transform"
                       >
                         Reset Password
                       </button>
                       {user.id !== session.user.id && (
                         <button
                           onClick={() => handleDeleteUser(user.id, user.email)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 hover:text-red-800 font-semibold hover:scale-105 transition-transform"
                         >
                           Delete
                         </button>

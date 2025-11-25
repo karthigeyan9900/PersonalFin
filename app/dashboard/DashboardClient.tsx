@@ -63,29 +63,29 @@ export default function DashboardClient({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <nav className="bg-white/80 backdrop-blur-md shadow-lg border-b border-purple-100">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">Finance Tracker</h1>
-          <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">PersonalFin</h1>
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setShowCurrencyModal(true)}
-              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm"
+              className="px-3 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-xl hover:scale-105 transition-all duration-300 text-sm font-medium shadow-sm"
             >
               {currency}
             </button>
-            <span className="text-gray-700">Welcome, {user.name || user.email}</span>
+            <span className="text-gray-700 hidden md:block">Hi, {user.name || user.email.split('@')[0]}</span>
             {user.role === "admin" && (
               <a
                 href="/admin"
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
               >
-                Admin Panel
+                Admin
               </a>
             )}
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              className="px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-red-300 hover:text-red-600 transition-all duration-300 font-medium"
             >
               Logout
             </button>
@@ -94,28 +94,30 @@ export default function DashboardClient({
       </nav>
 
       {showCurrencyModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Select Currency</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl border border-purple-100 animate-fade-in-up">
+            <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Select Currency</h2>
             <div className="space-y-2">
               {currencies.map((curr) => (
                 <button
                   key={curr.code}
                   onClick={() => handleCurrencyChange(curr.code)}
-                  className={`w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition ${
-                    currency === curr.code ? "bg-blue-100 border-2 border-blue-500" : "bg-gray-50"
+                  className={`w-full text-left px-4 py-3 rounded-xl hover:scale-102 transition-all duration-200 ${
+                    currency === curr.code 
+                      ? "bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-400 shadow-md" 
+                      : "bg-gray-50 hover:bg-gray-100"
                   }`}
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">{curr.code}</span>
-                    <span className="text-gray-600">{curr.symbol} - {curr.name}</span>
+                    <span className="font-semibold text-gray-800">{curr.code}</span>
+                    <span className="text-gray-600 text-sm">{curr.symbol} - {curr.name}</span>
                   </div>
                 </button>
               ))}
             </div>
             <button
               onClick={() => setShowCurrencyModal(false)}
-              className="mt-4 w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+              className="mt-4 w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
             >
               Cancel
             </button>
@@ -125,43 +127,43 @@ export default function DashboardClient({
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Total Income</h3>
-            <p className="text-3xl font-bold text-green-600">{formatCurrency(stats.totalIncome, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-green-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Income</h3>
+            <p className="text-3xl font-bold text-green-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.totalIncome, currency)}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Total Expenses</h3>
-            <p className="text-3xl font-bold text-red-600">{formatCurrency(stats.totalExpenses, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-red-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Expenses</h3>
+            <p className="text-3xl font-bold text-red-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.totalExpenses, currency)}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Net Worth</h3>
-            <p className="text-3xl font-bold text-blue-600">{formatCurrency(stats.netWorth, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-blue-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Net Worth</h3>
+            <p className="text-3xl font-bold text-blue-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.netWorth, currency)}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Total Liabilities</h3>
-            <p className="text-3xl font-bold text-orange-600">{formatCurrency(stats.totalLiabilities, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-orange-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Liabilities</h3>
+            <p className="text-3xl font-bold text-orange-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.totalLiabilities, currency)}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Monthly Subscriptions</h3>
-            <p className="text-3xl font-bold text-purple-600">{formatCurrency(stats.monthlySubscriptions, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-purple-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Monthly Subscriptions</h3>
+            <p className="text-3xl font-bold text-purple-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.monthlySubscriptions, currency)}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-gray-500 text-sm">Total Investments</h3>
-            <p className="text-3xl font-bold text-indigo-600">{formatCurrency(stats.totalInvestments, currency)}</p>
+          <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-indigo-100">
+            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Investments</h3>
+            <p className="text-3xl font-bold text-indigo-600 group-hover:scale-105 transition-transform">{formatCurrency(stats.totalInvestments, currency)}</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow">
-          <div className="border-b">
-            <div className="flex gap-4 px-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-purple-100">
+          <div className="border-b border-purple-100">
+            <div className="flex gap-2 px-6 py-2 overflow-x-auto">
               {["overview", "income", "expenses", "liabilities", "subscriptions", "investments"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`py-4 px-2 border-b-2 font-medium capitalize ${
+                  className={`py-3 px-4 rounded-xl font-medium capitalize transition-all duration-300 whitespace-nowrap ${
                     activeTab === tab
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700"
+                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105"
+                      : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >
                   {tab}
@@ -187,7 +189,7 @@ export default function DashboardClient({
                   <h2 className="text-xl font-semibold">Income</h2>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                    className="px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
                   >
                     {showForm ? "Cancel" : "+ Add Income"}
                   </button>
@@ -200,17 +202,17 @@ export default function DashboardClient({
                 ) : (
                   <div className="space-y-2">
                     {incomes.map((income) => (
-                      <div key={income.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                      <div key={income.id} className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-100 hover:shadow-md transition-all duration-200">
                         <div>
-                          <p className="font-medium">{income.source}</p>
+                          <p className="font-semibold text-gray-800">{income.source}</p>
                           <p className="text-sm text-gray-500">{new Date(income.date).toLocaleDateString()}</p>
-                          {income.description && <p className="text-sm text-gray-600">{income.description}</p>}
+                          {income.description && <p className="text-sm text-gray-600 mt-1">{income.description}</p>}
                         </div>
                         <div className="flex items-center gap-3">
-                          <p className="text-green-600 font-semibold">{formatCurrency(income.amount, currency)}</p>
+                          <p className="text-green-600 font-bold text-lg">{formatCurrency(income.amount, currency)}</p>
                           <button
                             onClick={() => handleDelete("income", income.id)}
-                            className="text-red-600 hover:text-red-800"
+                            className="text-red-500 hover:text-red-700 hover:scale-110 transition-all duration-200 font-medium"
                           >
                             Delete
                           </button>
@@ -228,7 +230,7 @@ export default function DashboardClient({
                   <h2 className="text-xl font-semibold">Expenses</h2>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                    className="px-6 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
                   >
                     {showForm ? "Cancel" : "+ Add Expense"}
                   </button>
@@ -269,7 +271,7 @@ export default function DashboardClient({
                   <h2 className="text-xl font-semibold">Liabilities</h2>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+                    className="px-6 py-2 bg-gradient-to-r from-orange-600 to-amber-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
                   >
                     {showForm ? "Cancel" : "+ Add Liability"}
                   </button>
@@ -313,7 +315,7 @@ export default function DashboardClient({
                   <h2 className="text-xl font-semibold">Subscriptions</h2>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
                   >
                     {showForm ? "Cancel" : "+ Add Subscription"}
                   </button>
@@ -355,7 +357,7 @@ export default function DashboardClient({
                   <h2 className="text-xl font-semibold">Investments</h2>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                    className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg font-medium"
                   >
                     {showForm ? "Cancel" : "+ Add Investment"}
                   </button>
